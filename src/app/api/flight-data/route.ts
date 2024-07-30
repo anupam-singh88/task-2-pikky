@@ -28,17 +28,17 @@ export async function GET(request: Request) {
 
     try {
         const flightData = await FlightModel.find(filters)
-            .populate('status', 'status') 
-            .populate('airline', 'name'); 
-        
+            .populate('status')
+            .populate('airline', 'name');
+
         const transformedData = flightData.map(flight => ({
             _id: flight._id,
             number: flight.number,
             origin: flight.origin,
             destination: flight.destination,
             departure_time: flight.departure_time,
-            status: flight.status.status, 
-            airline: flight.airline.name, 
+            status: flight.status.status,
+            airline: flight.airline.name,
             createdAt: flight.createdAt,
             updatedAt: flight.updatedAt,
             __v: flight.__v

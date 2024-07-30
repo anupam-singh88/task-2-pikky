@@ -54,28 +54,29 @@ const generateRandomFlight = async () => {
 };
 
 const addRandomFlights = async () => {
-    // await dbConnect();
+  // await dbConnect();
 
   try {
-      const flightData = await generateRandomFlight();
-      const newFlight = new FlightModel(flightData);
-      const savedFlight = await newFlight.save();
+    const flightData = await generateRandomFlight();
+    const newFlight = new FlightModel(flightData);
+    const savedFlight = await newFlight.save();
 
-      // Populate the airline field
-      const populatedFlight = await FlightModel.findById(savedFlight._id).populate('airline');
-      const flightWithAirlineName = {
-          ...populatedFlight.toObject(),
-          airline: populatedFlight.airline.name
-      };
+    // Populate the airline field
+    const populatedFlight = await FlightModel.findById(savedFlight._id).populate('airline').populate('status'); // populate status field
+    const flightWithAirlineName = {
+      ...populatedFlight.toObject(),
+      airline: populatedFlight.airline.name,
+      status: populatedFlight.status.status // add status field
+    };
 
-      return flightWithAirlineName;
+    return flightWithAirlineName;
   } catch (error) {
-      console.error('Error generating or saving flight data:', error);
-      throw error;
+    console.error('Error generating or saving flight data:', error);
+    throw error;
   }
 };
 
 
 
 
-export {  generateRandomFlight, addRandomFlights };
+export { generateRandomFlight, addRandomFlights };

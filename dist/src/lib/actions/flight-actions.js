@@ -64,8 +64,8 @@ const addRandomFlights = () => __awaiter(void 0, void 0, void 0, function* () {
         const newFlight = new Flight_1.default(flightData);
         const savedFlight = yield newFlight.save();
         // Populate the airline field
-        const populatedFlight = yield Flight_1.default.findById(savedFlight._id).populate('airline');
-        const flightWithAirlineName = Object.assign(Object.assign({}, populatedFlight.toObject()), { airline: populatedFlight.airline.name });
+        const populatedFlight = yield Flight_1.default.findById(savedFlight._id).populate('airline').populate('status');
+        const flightWithAirlineName = Object.assign(Object.assign({}, populatedFlight.toObject()), { airline: populatedFlight.airline.name, status: populatedFlight.status.status });
         return flightWithAirlineName;
     }
     catch (error) {
